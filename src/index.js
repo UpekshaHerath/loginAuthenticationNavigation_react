@@ -3,11 +3,31 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import 'bootstrap/dist/css/bootstrap.min.css'; // react-bootstrap configuration
+
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Login from './components/login/Login';
+import Auth from './components/Auth';
+import ProtectedRoute from './util/ProtectedRoute';
+import Home from './portal/home/Home';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter basename={'/'}>
+    <Routes>
+        <Route path='/' element={<Login />}>
+            <Route path='/app' element={<Login />} />
+        </Route>
+        <Route path="/app" element={<App />}>
+            <Route path='/app' element={
+                <ProtectedRoute>
+                    <Home />
+                </ProtectedRoute>
+            } />
+        </Route>
+    </Routes>
+</BrowserRouter>
   </React.StrictMode>
 );
 
